@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "text": "O que é um Widget no Flutter?",
+    "options": [
+      "Um tipo de banco de dados",
+      "A unidade básica de interface — tudo é widget",
+      "Um arquivo de configuração",
+      "Uma linguagem de programação"
+    ],
+    "correct": 1,
+    "explanation": "No Flutter, TUDO é um Widget: texto, botões, layouts e animações.",
+    "category": "Fundamentos"
+  },
+  {
+    "id": 2,
+    "text": "Qual método atualiza a UI num StatefulWidget?",
+    "options": ["updateUI()", "refresh()", "setState()", "rebuild()"],
+    "correct": 2,
+    "explanation": "setState() notifica o Flutter que o estado mudou e agenda um rebuild.",
+    "category": "Estado"
+  }
+]
