@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../models/question.dart';
-import '../widgets/answer_button.dart';
+//import '../widgets/answer_button.dart';
 import 'result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -29,8 +29,11 @@ class _QuizScreenState extends State<QuizScreen> {
     _timer?.cancel();
     setState(() => _seconds = 20);
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (_seconds <= 1) _answer(-1);
-      else setState(() => _seconds--);
+      if (_seconds <= 1) {
+        _answer(-1);
+      } else {
+        setState(() => _seconds--);
+      }
     });
   }
 
@@ -107,7 +110,7 @@ class _QuizScreenState extends State<QuizScreen> {
           Expanded(
             child: ListView.separated(
               itemCount: _q.options.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 10),
+              separatorBuilder: (_, _) => const SizedBox(height: 10),
               itemBuilder: (_, i) => AnswerButton(
                 text:      _q.options[i],
                 index:     i,
@@ -192,7 +195,7 @@ class AnswerButton extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(radius: 13,
           backgroundColor: scheme.surface,
-          child: Text('${String.fromCharCode(65 + index)}',
+          child: Text(String.fromCharCode(65 + index),
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold,
               color: scheme.onSurface))),
         title: Text(text, style: TextStyle(color: textColor)),

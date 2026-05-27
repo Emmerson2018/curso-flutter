@@ -1,0 +1,29 @@
+name: metas_riverpod
+description: "Gerenciador de metas com Riverpod"
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  # Riverpod — gerenciamento de estado para Flutter
+  flutter_riverpod: ^3.3.1
+  # SharedPreferences — persistência de chave/valor
+  shared_preferences: ^2.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+
+  uses-material-design: true
