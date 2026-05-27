@@ -241,7 +241,7 @@ class _TarefasScreenState extends State<TarefasScreen> {
                             ),
                           ),
                           trailing: Text(
-                            '${tarefa.categoria.emoji}',
+                            tarefa.categoria.emoji,
                             style: const TextStyle(fontSize: 20),
                           ),
                         ),
