@@ -1,11 +1,10 @@
 import 'package:drift/drift.dart';
-import 'package:drift_flutter/drift_flutter.dart';
+import 'package:drift_flutter/drift_flutter.dart'; // driftDatabase()
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'app_database.g.dart';   // gerado pelo build_runner — inclui DAO e Database
-//part 'app_database.drift.dart'; // gerado pelo build_runner — queries Drift
+part 'app_database.g.dart';
 
-// ── Definição da tabela ──────────────────────────────────
+// ── Tabela ───────────────────────────────────────────────
 class Photos extends Table {
   TextColumn     get id               => text()();
   TextColumn     get localPath        => text()();
@@ -14,13 +13,14 @@ class Photos extends Table {
   TextColumn     get audioDesc        => text().nullable()();
   TextColumn     get remoteUrl        => text().nullable()();
   TextColumn     get photographerName => text().nullable()();
-  BoolColumn     get isFavorite       => boolean().withDefault(const Constant(false))();
+  BoolColumn     get isFavorite       =>
+      boolean().withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};
 }
 
-// ── DAO: Data Access Object ──────────────────────────────
+// ── DAO ──────────────────────────────────────────────────
 @DriftAccessor(tables: [Photos])
 class PhotoDao extends DatabaseAccessor<AppDatabase> with _$PhotoDaoMixin {
   PhotoDao(super.db);
@@ -52,7 +52,7 @@ class PhotoDao extends DatabaseAccessor<AppDatabase> with _$PhotoDaoMixin {
           .watch();
 }
 
-// ── Database principal ───────────────────────────────────
+// ── Database ─────────────────────────────────────────────
 @DriftDatabase(tables: [Photos], daos: [PhotoDao])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
@@ -62,23 +62,18 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-    onCreate: (m) async => await m.createAll(),
-    onUpgrade: (m, from, to) async {
-      // if (from < 2) await m.addColumn(photos, photos.novaColuna);
-    },
+    onCreate: (m) async => m.createAll(),
+    onUpgrade: (m, from, to) async {},
   );
 }
 
-QueryExecutor _openConnection() => DriftNativeStorage.inDatabaseFolder(
-      'photo_vault.db',
-      native: NativeDatabase.createInBackground,
-    );
+// drift_flutter 0.2.8+: usa driftDatabase() em vez de DriftNativeStorage
+QueryExecutor _openConnection() => driftDatabase(name: 'photo_vault');
 
-// ── Provider Riverpod ────────────────────────────────────
-// keepAlive: true → banco não é fechado ao sair de uma tela
+// ── Provider ─────────────────────────────────────────────
 @Riverpod(keepAlive: true)
-AppDatabase appDatabase(AppDatabaseRef ref) {
+AppDatabase appDatabase(Ref ref) {
   final db = AppDatabase();
-  ref.onDispose(db.close); // fecha o banco quando o provider é descartado
+  ref.onDispose(db.close);
   return db;
 }

@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:cached_network_image/cached_network_image.dart",
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:photovault_app/features/photo/data/datasources/photo_remote_ds.dart",
+    "package:photovault_app/features/photo/data/models/unsplash_photo.dart"
+  ]
+}

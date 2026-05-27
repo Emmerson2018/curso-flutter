@@ -1,0 +1,13 @@
+{
+  "elements": {},
+  "imports": [
+    "package:riverpod_annotation/riverpod_annotation.dart",
+    "package:photovault_app/database/app_database.dart",
+    "package:photovault_app/features/photo/data/datasources/photo_local_ds.dart",
+    "package:photovault_app/features/photo/data/datasources/photo_remote_ds.dart",
+    "package:photovault_app/features/photo/data/photo_repository_impl.dart",
+    "package:photovault_app/features/photo/domain/entities/photo.dart",
+    "package:photovault_app/features/photo/domain/repositories/photo_repository.dart",
+    "package:photovault_app/core/network/dio_client.dart"
+  ]
+}

@@ -20,9 +20,9 @@ dependencies:
   riverpod_annotation: ^4.0.2
 
   # ________ Banco Local _______________________________
-  drift: ^2.19.1
+  drift: ^2.31.0
   drift_flutter: ^0.2.3
-  sqlite3_flutter_libs: ^0.5.0
+  sqlite3_flutter_libs: ^0.5.42
 
   # ________ HTTP/API __________________________________
   dio: ^5.4.3

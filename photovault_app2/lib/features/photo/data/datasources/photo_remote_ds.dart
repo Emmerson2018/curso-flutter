@@ -30,7 +30,7 @@ class PhotoRemoteDataSource {
 }
 
 @Riverpod(keepAlive: true)
-Future<PhotoRemoteDataSource> photoRemoteDs(PhotoRemoteDsRef ref) async {
+Future<PhotoRemoteDataSource> photoRemoteDs(Ref ref) async {
   final client = await ref.watch(dioClientProvider.future);
   return PhotoRemoteDataSource(client.dio);
 }
@@ -65,7 +65,7 @@ class UnsplashSearch extends _$UnsplashSearch {
     final ds   = await ref.read(photoRemoteDsProvider.future);
     final more = await ds.searchPhotos(_query, page: _page);
     if (more.isEmpty) { _hasMore = false; return; }
-    state = AsyncData([...state.valueOrNull ?? [], ...more]);
+    state = AsyncData([...(state.hasValue ? state.requireValue : <UnsplashPhoto>[]), ...more]);
   }
 
   Future<void> saveToGallery(UnsplashPhoto p) async {

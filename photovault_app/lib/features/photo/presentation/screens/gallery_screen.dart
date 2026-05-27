@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -7,9 +5,7 @@ import '../providers/photo_providers.dart';
 import '../widgets/photo_tile.dart';
 import 'camera_screen.dart';
 import 'search_screen.dart';
-import 'photo_detail_screen.dart';
 import '../../../settings/presentation/settings_screen.dart';
-import '../../domain/entities/photo.dart';
 
 class GalleryScreen extends ConsumerWidget {
   const GalleryScreen({super.key});
@@ -42,7 +38,7 @@ class GalleryScreen extends ConsumerWidget {
           loading: () => const SliverFillRemaining(
               child: Center(
                   child: CircularProgressIndicator(color: Colors.white))),
-          error: (e, _) => SliverFillRemaining(
+          error: (e, st) => SliverFillRemaining(
               child: Center(
                   child: Text('Erro: $e',
                       style: const TextStyle(color: Colors.white)))),
@@ -52,7 +48,7 @@ class GalleryScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(2),
                   sliver: SliverGrid(
                     delegate: SliverChildBuilderDelegate(
-                      (_, i) => PhotoTile(photo: photos[i]),
+                      (ctx, i) => PhotoTile(photo: photos[i]),
                       childCount: photos.length,
                     ),
                     gridDelegate:
@@ -68,8 +64,8 @@ class GalleryScreen extends ConsumerWidget {
         backgroundColor: Colors.white,
         child: const Icon(Icons.camera_alt, color: Colors.black),
         onPressed: () async {
-          final ok = await Permission.camera.request();
-          if (ok.isGranted && context.mounted) {
+          final status = await Permission.camera.request();
+          if (status.isGranted && context.mounted) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (_) => const CameraScreen()));
           }

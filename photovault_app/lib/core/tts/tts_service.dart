@@ -47,7 +47,7 @@ class TtsService {
 }
 
 @Riverpod(keepAlive: true)
-TtsService ttsService(TtsServiceRef ref) {
+TtsService ttsService(Ref ref) {
   final s = TtsService();
   s.init();
   ref.onDispose(s.dispose);

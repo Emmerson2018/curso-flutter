@@ -1,0 +1,7 @@
+{
+  "elements": {},
+  "imports": [
+    "package:photovault_app/features/photo/domain/entities/photo.dart",
+    "package:photovault_app/features/photo/domain/repositories/photo_repository.dart"
+  ]
+}

@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/network/dio_client.dart';
 import '../models/unsplash_photo.dart';
 import '../../domain/entities/photo.dart';
-import '../providers/photo_providers.dart';
+import '../../../photo/presentation/providers/photo_providers.dart';
 
 part 'photo_remote_ds.g.dart';
 
@@ -24,13 +24,13 @@ class PhotoRemoteDataSource {
       'page': page, 'per_page': 20, 'order_by': 'editorial',
     });
     return (res.data as List)
-        .map((j) => UnsplashPhoto.fromJson(j))
+        .map((j) => UnsplashPhoto.fromJson(j as Map<String, dynamic>))
         .toList();
   }
 }
 
 @Riverpod(keepAlive: true)
-Future<PhotoRemoteDataSource> photoRemoteDs(PhotoRemoteDsRef ref) async {
+Future<PhotoRemoteDataSource> photoRemoteDs(Ref ref) async {
   final client = await ref.watch(dioClientProvider.future);
   return PhotoRemoteDataSource(client.dio);
 }
@@ -54,23 +54,29 @@ class UnsplashSearch extends _$UnsplashSearch {
     try {
       final ds = await ref.read(photoRemoteDsProvider.future);
       state = AsyncData(await ds.searchPhotos(query));
-    } catch (e, st) { state = AsyncError(e, st); }
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
   }
 
   Future<void> loadMore() async {
     if (!_hasMore || state.isLoading || _query.isEmpty) return;
     _page++;
-    final ds = await ref.read(photoRemoteDsProvider.future);
+    final ds   = await ref.read(photoRemoteDsProvider.future);
     final more = await ds.searchPhotos(_query, page: _page);
     if (more.isEmpty) { _hasMore = false; return; }
-    state = AsyncData([...state.valueOrNull ?? [], ...more]);
+    state = AsyncData([...(state.hasValue ? state.requireValue : <UnsplashPhoto>[]), ...more]);
   }
 
   Future<void> saveToGallery(UnsplashPhoto p) async {
     final photo = Photo(
-      id: p.id, localPath: p.urls.regular, createdAt: DateTime.now(),
-      remoteUrl: p.urls.regular, caption: p.description ?? p.altDescription,
-      audioDescription: p.altDescription, photographerName: p.user.name,
+      id:               p.id,
+      localPath:        p.urls.regular,
+      createdAt:        DateTime.now(),
+      remoteUrl:        p.urls.regular,
+      caption:          p.description ?? p.altDescription,
+      audioDescription: p.altDescription,
+      photographerName: p.user.name,
     );
     await ref.read(photoGalleryProvider.notifier).addPhoto(photo);
   }

@@ -43,7 +43,7 @@ class DioClient {
 }
 
 @Riverpod(keepAlive: true)
-Future<DioClient> dioClient(DioClientRef ref) async {
+Future<DioClient> dioClient(Ref ref) async {
   const storage = FlutterSecureStorage();
   final apiKey  = await storage.read(key: 'unsplash_api_key') ?? '';
   return DioClient(apiKey: apiKey);

@@ -26,12 +26,15 @@ class TtsService {
 
   Future<void> speakPhoto(Photo photo) async {
     final parts = <String>[];
-    if (photo.caption?.isNotEmpty == true)
-        parts.add('Legenda: ${photo.caption}');
-    if (photo.audioDescription?.isNotEmpty == true)
-        parts.add('Audiodescrição: ${photo.audioDescription}');
-    if (photo.photographerName?.isNotEmpty == true)
-        parts.add('Fotógrafo: ${photo.photographerName}');
+    if (photo.caption?.isNotEmpty == true) {
+      parts.add('Legenda: ${photo.caption}');
+    }
+    if (photo.audioDescription?.isNotEmpty == true) {
+      parts.add('Audiodescrição: ${photo.audioDescription}');
+    }
+    if (photo.photographerName?.isNotEmpty == true) {
+      parts.add('Fotógrafo: ${photo.photographerName}');
+    }
     await _tts.stop();
     await _tts.speak(
         parts.isEmpty ? 'Esta foto não possui descrição.' : parts.join('. '));
@@ -44,7 +47,7 @@ class TtsService {
 }
 
 @Riverpod(keepAlive: true)
-TtsService ttsService(TtsServiceRef ref) {
+TtsService ttsService(Ref ref) {
   final s = TtsService();
   s.init();
   ref.onDispose(s.dispose);

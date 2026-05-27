@@ -4,7 +4,7 @@ part 'unsplash_photo.freezed.dart';
 part 'unsplash_photo.g.dart';
 
 @freezed
-class UnsplashSearchResponse with _$UnsplashSearchResponse {
+abstract class UnsplashSearchResponse with _$UnsplashSearchResponse {
   const factory UnsplashSearchResponse({
     required int                  total,
     @JsonKey(name: 'total_pages') required int totalPages,
@@ -15,7 +15,7 @@ class UnsplashSearchResponse with _$UnsplashSearchResponse {
 }
 
 @freezed
-class UnsplashPhoto with _$UnsplashPhoto {
+abstract class UnsplashPhoto with _$UnsplashPhoto {
   const factory UnsplashPhoto({
     required String       id,
     required UnsplashUrls urls,
@@ -29,7 +29,7 @@ class UnsplashPhoto with _$UnsplashPhoto {
 }
 
 @freezed
-class UnsplashUrls with _$UnsplashUrls {
+abstract class UnsplashUrls with _$UnsplashUrls {
   const factory UnsplashUrls({
     required String raw,
     required String full,
@@ -42,7 +42,7 @@ class UnsplashUrls with _$UnsplashUrls {
 }
 
 @freezed
-class UnsplashUser with _$UnsplashUser {
+abstract class UnsplashUser with _$UnsplashUser {
   const factory UnsplashUser({
     required String id,
     required String name,

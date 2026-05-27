@@ -1,6 +1,5 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../database/app_database.dart';
+import '../../../../database/app_database.dart' as db;
 import '../../data/datasources/photo_local_ds.dart';
 import '../../data/datasources/photo_remote_ds.dart';
 import '../../data/photo_repository_impl.dart';
@@ -10,33 +9,25 @@ import '../../../../core/network/dio_client.dart';
 
 part 'photo_providers.g.dart';
 
-// ── 1. Banco de dados ─────────────────────────────────────────────
+// ── Repositório ───────────────────────────────────────────
 @Riverpod(keepAlive: true)
-AppDatabase appDatabase(AppDatabaseRef ref) {
-  final db = AppDatabase();
-  ref.onDispose(db.close);
-  return db;
-}
-
-// ── 2. Repositório com injeção de dependências ────────────────────
-@Riverpod(keepAlive: true)
-Future<PhotoRepository> photoRepository(PhotoRepositoryRef ref) async {
-  final db     = ref.watch(appDatabaseProvider);
-  final client = await ref.watch(dioClientProvider.future);
+Future<PhotoRepository> photoRepository(Ref ref) async {
+  final database = ref.watch(db.appDatabaseProvider);
+  final client   = await ref.watch(dioClientProvider.future);
   return PhotoRepositoryImpl(
-    localDs:  PhotoLocalDataSource(db.photoDao),
+    localDs:  PhotoLocalDataSource(database.photoDao),
     remoteDs: PhotoRemoteDataSource(client.dio),
   );
 }
 
-// ── 3. Stream reativo da galeria ──────────────────────────────────
+// ── Stream reativo da galeria ─────────────────────────────
 @riverpod
-Stream<List<Photo>> photoGalleryStream(PhotoGalleryStreamRef ref) async* {
+Stream<List<Photo>> photoGalleryStream(Ref ref) async* {
   final repo = await ref.watch(photoRepositoryProvider.future);
   yield* repo.watchLocalPhotos();
 }
 
-// ── 4. AsyncNotifier com CRUD ─────────────────────────────────────
+// ── AsyncNotifier com CRUD ────────────────────────────────
 @riverpod
 class PhotoGallery extends _$PhotoGallery {
   @override
@@ -46,7 +37,7 @@ class PhotoGallery extends _$PhotoGallery {
   }
 
   Future<void> addPhoto(Photo photo) async {
-    final current = state.valueOrNull ?? [];
+    final current = state.hasValue ? state.requireValue : <Photo>[];
     state = AsyncData([photo, ...current]);
     try {
       final repo = await ref.read(photoRepositoryProvider.future);
@@ -70,7 +61,7 @@ class PhotoGallery extends _$PhotoGallery {
   }
 }
 
-// ── 5. Filtro síncrono ────────────────────────────────────────────
+// ── Filtro síncrono ───────────────────────────────────────
 @riverpod
 class PhotoFilter extends _$PhotoFilter {
   @override
@@ -79,15 +70,16 @@ class PhotoFilter extends _$PhotoFilter {
   void setSort(SortOrder o) => state = state.copyWith(sortOrder: o);
 }
 
-// ── 6. Provider derivado: galeria filtrada ────────────────────────
+// ── Provider derivado: galeria filtrada ───────────────────
 @riverpod
-List<Photo> filteredPhotos(FilteredPhotosRef ref) {
-  final photos = ref.watch(photoGalleryStreamProvider).valueOrNull ?? [];
+List<Photo> filteredPhotos(Ref ref) {
+  final photos = ref.watch(photoGalleryStreamProvider).value ?? <Photo>[];
   final filter = ref.watch(photoFilterProvider);
   return photos
-    .where((p) => filter.searchQuery.isEmpty ||
-        (p.caption ?? '').toLowerCase().contains(filter.searchQuery.toLowerCase()))
-    .toList()
+      .where((p) => filter.searchQuery.isEmpty ||
+          (p.caption ?? '').toLowerCase()
+              .contains(filter.searchQuery.toLowerCase()))
+      .toList()
     ..sort((a, b) => filter.sortOrder == SortOrder.newest
         ? b.createdAt.compareTo(a.createdAt)
         : a.createdAt.compareTo(b.createdAt));

@@ -3,7 +3,7 @@ part 'photo.freezed.dart';
 
 // @freezed gera: copyWith, ==, hashCode, toString — imutável
 @freezed
-class Photo with _$Photo {
+abstract class Photo with _$Photo {
   const factory Photo({
     required String   id,
     required String   localPath,
@@ -23,7 +23,7 @@ enum SortOrder {
 }
 
 @freezed
-class PhotoFilterState with _$PhotoFilterState {
+abstract class PhotoFilterState with _$PhotoFilterState {
   const factory PhotoFilterState({
     @Default('')               String    searchQuery,
     @Default(SortOrder.newest) SortOrder sortOrder,

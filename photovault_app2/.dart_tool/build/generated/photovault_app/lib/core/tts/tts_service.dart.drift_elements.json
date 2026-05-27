@@ -1,0 +1,1 @@
+{"valid_import":true,"imports":[{"uri":"package:flutter/foundation.dart","transitive":false},{"uri":"package:flutter_tts/flutter_tts.dart","transitive":false},{"uri":"package:riverpod_annotation/riverpod_annotation.dart","transitive":false},{"uri":"package:photovault_app/features/photo/domain/entities/photo.dart","transitive":false}],"elements":[]}

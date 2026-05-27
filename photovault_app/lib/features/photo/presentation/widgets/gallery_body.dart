@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/photo_providers.dart';
-import '../screens/photo_detail_screen.dart';
 import '../../domain/entities/photo.dart';
 import 'photo_tile.dart';
 

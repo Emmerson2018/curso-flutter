@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:photovault_app/features/photo/presentation/providers/photo_providers.dart",
+    "package:photovault_app/features/photo/domain/entities/photo.dart",
+    "package:photovault_app/features/photo/presentation/widgets/photo_tile.dart"
+  ]
+}

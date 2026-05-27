@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../database/app_database.dart' as db;
 import '../../data/datasources/photo_local_ds.dart';
@@ -12,7 +11,7 @@ part 'photo_providers.g.dart';
 
 // ── Repositório ───────────────────────────────────────────
 @Riverpod(keepAlive: true)
-Future<PhotoRepository> photoRepository(PhotoRepositoryRef ref) async {
+Future<PhotoRepository> photoRepository(Ref ref) async {
   final database = ref.watch(db.appDatabaseProvider);
   final client   = await ref.watch(dioClientProvider.future);
   return PhotoRepositoryImpl(
@@ -23,7 +22,7 @@ Future<PhotoRepository> photoRepository(PhotoRepositoryRef ref) async {
 
 // ── Stream reativo da galeria ─────────────────────────────
 @riverpod
-Stream<List<Photo>> photoGalleryStream(PhotoGalleryStreamRef ref) async* {
+Stream<List<Photo>> photoGalleryStream(Ref ref) async* {
   final repo = await ref.watch(photoRepositoryProvider.future);
   yield* repo.watchLocalPhotos();
 }
@@ -38,7 +37,7 @@ class PhotoGallery extends _$PhotoGallery {
   }
 
   Future<void> addPhoto(Photo photo) async {
-    final current = state.valueOrNull ?? [];
+    final current = state.hasValue ? state.requireValue : <Photo>[];
     state = AsyncData([photo, ...current]);
     try {
       final repo = await ref.read(photoRepositoryProvider.future);
@@ -73,8 +72,8 @@ class PhotoFilter extends _$PhotoFilter {
 
 // ── Provider derivado: galeria filtrada ───────────────────
 @riverpod
-List<Photo> filteredPhotos(FilteredPhotosRef ref) {
-  final photos = ref.watch(photoGalleryStreamProvider).valueOrNull ?? [];
+List<Photo> filteredPhotos(Ref ref) {
+  final photos = ref.watch(photoGalleryStreamProvider).value ?? <Photo>[];
   final filter = ref.watch(photoFilterProvider);
   return photos
       .where((p) => filter.searchQuery.isEmpty ||

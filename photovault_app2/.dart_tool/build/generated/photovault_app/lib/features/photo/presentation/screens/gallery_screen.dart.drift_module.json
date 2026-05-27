@@ -1,0 +1,13 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:permission_handler/permission_handler.dart",
+    "package:photovault_app/features/photo/presentation/providers/photo_providers.dart",
+    "package:photovault_app/features/photo/presentation/widgets/photo_tile.dart",
+    "package:photovault_app/features/photo/presentation/screens/camera_screen.dart",
+    "package:photovault_app/features/photo/presentation/screens/search_screen.dart",
+    "package:photovault_app/features/settings/presentation/settings_screen.dart"
+  ]
+}

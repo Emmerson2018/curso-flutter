@@ -1,0 +1,26 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) => _PhotoModel(
+  id: json['id'] as String,
+  localPath: json['localPath'] as String,
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  caption: json['caption'] as String?,
+  audioDesc: json['audioDesc'] as String?,
+  remoteUrl: json['remoteUrl'] as String?,
+  photographerName: json['photographerName'] as String?,
+  isFavorite: json['isFavorite'] as bool? ?? false,
+);
+
+Map<String, dynamic> _$PhotoModelToJson(_PhotoModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'localPath': instance.localPath,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'caption': instance.caption,
+      'audioDesc': instance.audioDesc,
+      'remoteUrl': instance.remoteUrl,
+      'photographerName': instance.photographerName,
+      'isFavorite': instance.isFavorite,
+    };

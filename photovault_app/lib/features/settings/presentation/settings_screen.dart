@@ -9,12 +9,12 @@ import '../../../core/constants/api_constants.dart';
 
 part 'settings_screen.g.dart';
 
-typedef _SettingsData = ({double ttsRate, int gridCols});
+typedef SettingsData = ({double ttsRate, int gridCols});
 
 @riverpod
 class AppSettings extends _$AppSettings {
   @override
-  Future<_SettingsData> build() async {
+  Future<SettingsData> build() async {
     final p = await SharedPreferences.getInstance();
     return (
       ttsRate:  p.getDouble('tts_rate') ?? .5,

@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';         // NativeDatabase
 import 'package:drift_flutter/drift_flutter.dart'; // driftDatabase()
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -73,7 +72,7 @@ QueryExecutor _openConnection() => driftDatabase(name: 'photo_vault');
 
 // ── Provider ─────────────────────────────────────────────
 @Riverpod(keepAlive: true)
-AppDatabase appDatabase(AppDatabaseRef ref) {
+AppDatabase appDatabase(Ref ref) {
   final db = AppDatabase();
   ref.onDispose(db.close);
   return db;
