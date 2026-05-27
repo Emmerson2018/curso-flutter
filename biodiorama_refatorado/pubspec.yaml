@@ -1,0 +1,43 @@
+name: biodiorama_ia
+version: 1.0.0+1
+description: App educacional acessível com IA para descrição de diorama amazônico.
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # HTTP e ambiente
+  http: ^1.2.2
+  flutter_dotenv: ^5.1.0        # Aula 4 - variaveis de ambiente / chaves de API
+
+  # Camera e imagem
+  image_picker: ^1.1.2           # Aula 8 - camera e galeria
+
+  # Acessibilidade
+  flutter_tts: ^4.0.2            # Aula 10 - Text-to-Speech pt-BR
+
+  # Libras
+  video_player: ^2.9.1           # Aula 11 - player de videos de Libras
+
+  # Persistencia
+  shared_preferences: ^2.2.3     # Aula 7 - preferencias de acessibilidade
+
+  # Estado e navegacao
+  provider: ^6.1.2               # Aula 7 - AcessibilidadeProvider / ChangeNotifier
+  go_router: ^14.2.0             # Aula 7 - navegacao declarativa com rotas nomeadas
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/videos_libras/

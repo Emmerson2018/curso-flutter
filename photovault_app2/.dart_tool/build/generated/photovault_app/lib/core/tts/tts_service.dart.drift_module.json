@@ -1,9 +1,0 @@
-{
-  "elements": {},
-  "imports": [
-    "package:flutter/foundation.dart",
-    "package:flutter_tts/flutter_tts.dart",
-    "package:riverpod_annotation/riverpod_annotation.dart",
-    "package:photovault_app/features/photo/domain/entities/photo.dart"
-  ]
-}

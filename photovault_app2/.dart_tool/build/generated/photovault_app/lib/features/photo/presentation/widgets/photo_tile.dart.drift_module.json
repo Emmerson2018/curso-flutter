@@ -1,9 +1,0 @@
-{
-  "elements": {},
-  "imports": [
-    "package:cached_network_image/cached_network_image.dart",
-    "package:flutter/material.dart",
-    "package:photovault_app/features/photo/domain/entities/photo.dart",
-    "package:photovault_app/features/photo/presentation/screens/photo_detail_screen.dart"
-  ]
-}
